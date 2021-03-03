@@ -37,7 +37,10 @@ SYSTEM_POSTINSTALL_REBOOT=false
 ####################################################################################################
 # Set your localization options. The examples here are for German, because... I'm German.
 # System language. You can find them in /etc/locale.gen (on an Arch Linux host or the live ISO).
-LOCALE_LANG='de_DE'
+LOCALE_SYSLANG='de_DE'
+
+# This is for packages like Firefox, where the langaues are provided as seperate packages.
+LOCALE_APPLANG='de'
 
 # Keyboard layout (TTY).
 LOCALE_KEYMAP_TTY='de-latin1'
@@ -59,8 +62,8 @@ LOCALE_KEYMAP_XORG='de'
 # the boot partition being used as the efi partition as well.
 # Also note: the partitions will be partitioned in alphabetical oder, so /dev/sda1 will
 # come first, then /dev/sda2, then /dev/sdb1 and so on.
-PARTITION_MAIN_DEVICE='/dev/sda2'
-PARTITION_boot_DEVICE='/dev/sda1'
+PARTITION_MAIN_DEVICE='sda2'
+PARTITION_boot_DEVICE='sda1'
 #PARTITION_esp_DEVICE="${PARTITION_boot_device}"
 #PARTITION_home_DEVICE='/dev/sda1'
 
@@ -89,46 +92,47 @@ PARTITION_boot_SIZE='+400M'
 #                                             Packages                                             #
 ####################################################################################################
 # PACKAGES_BASE will always be installed.
-# PACKAGES_* will only trigger if a certain condition is met, for example if a
-# virtual machine is used or if a speciffic graphics card is installed.
 # PACKAGES_GRAPHICAL will only be installed if SYSTEM.GRAPHICAL is enabled.
 # PACKAGES_PHYSICAL and PACKAGES.VIRTUAL are special cases which only trigger
 # if a VM is (not) used.
 PACKAGES_BASE=(base base-devel bluez linux-lts linux-lts-headers efibootmgr nano vim dhcpcd pkgfile
                xdg-user-dirs)
-PACKAGES_GRAPHICAL=(arandr awesome blueman dunst lxapperance lxsession nitrogen pavucontrol picom
-                    unclutter volumeicon xf86-video-amdgpu xf86-video-fbdev xorg xscreensaver)
+PACKAGES_GRAPHICAL=(xf86-video-amdgpu xf86-video-fbdev)
 
 PACKAGES_PHYSICAL=(linux-firmware)
-#PACKAGES_VIRTUAL=()
+PACKAGES_VIRTUAL=()
 
 PACKAGES_VMWARE=(gtk2 gtkmm3 open-vm-tools xf86-input-vmmouse xf86-video-vmware)
 PACKAGES_VIRTUALBOX=(virtualbox-guest-dkms virtualbox-guest-utils)
 
 # PACKAGES_GROUP_* is an exeption to the rules above. These variables can only be toggled on or off,
-# as they are either pre-made groups containing multiple packages and configuration.
-PACKAGES_GROUP_ZSH=true
-PACKAGES_GROUP_AWESOMEWM=true
+# as they are pre-made groups containing multiple packages and configuration.
+PACKAGES_GROUP_AWESOME=true      # The "awesome" window manager
+PACKAGES_GROUP_GNOME=false       # The GNOME desktop environment
+PACKAGES_GROUP_KDE=false         # The KDE plasma desktop environment
+PACKAGES_GROUP_VIRTUALBOX=false  # Drivers for Virtualbox
+PACKAGES_GROUP_VMWARE=false      # Drivers for VMware
+PACKAGES_GROUP_ZSH=true          # The Z shell
 
 ####################################################################################################
 #                                             Systemd                                              #
 ####################################################################################################
 # SYSTEMD_ENABLE and SYSTEMD.DISABLE will enable and disable unit files, respectively.
 SYSTEMD_ENABLE=(dhcpcd.service pkgfile.timer)
-#SYSTEMD_DISABLE=()
+SYSTEMD_DISABLE=()
 
 ####################################################################################################
 #                                               Exec                                               #
 ####################################################################################################
 # Once the installision is done, you can run commands, both from the host and from within
 # the target using 
-#EXEC_HOST_PREINSTALL() {
-#	
-#}
+EXEC_HOST_PREINSTALL() {
+	
+}
 
-#EXEC_HOST_POSTINSTALL() {
-#	
-#}
+EXEC_HOST_POSTINSTALL() {
+	
+}
 
 # Since you cannot run a command inside a system where there is no system, there's only a
 # post-install function.
